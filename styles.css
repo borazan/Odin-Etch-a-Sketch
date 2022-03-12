@@ -1,7 +1,32 @@
+.pagewrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    width: 100%;
+}
+
 .wrapper {
-    display: grid;
-    margin: auto;
-    height: 40vw;
-    width: 40vw;
-    grid-template-columns: repeat(4, 1fr);
+    display: inline-grid;
+    height: 960px;
+    width: 960px;
+    grid-template-columns: repeat(16, 1fr);
+    border: 2px solid black;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 960px;
+    width: 200px;
+    border: 2px solid black;
+}
+
+.sidebar div {
+    width: 160px;
+    height: 160px;
+    text-justify: center;
+    text-align: center;
+    border: 1px solid orange;
 }
