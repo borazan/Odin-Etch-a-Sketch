@@ -1,0 +1,7 @@
+.wrapper {
+    display: grid;
+    margin: auto;
+    height: 40vw;
+    width: 40vw;
+    grid-template-columns: repeat(4, 1fr);
+}
