@@ -1,9 +1,18 @@
 const divContainer = document.createElement("div");
-
 const rightSidebar = document.querySelector(".sidebar.right");
 const leftSidebar = document.querySelector(".sidebar.left");
+const resetButton = document.querySelector(".reset");
+const wrapper = document.querySelector(".wrapper");
+const buttonx16 = document.querySelector(".sixteen");
+const buttonx8 = document.querySelector(".eight");
+const pageWrapper = document.querySelector(".pagewrapper");
+divContainer.classList.add("wrappersixteen");
+pageWrapper.insertBefore(divContainer, rightSidebar);
+
 var pickedHue;
-createGrid(16);
+var gridSize = 16;
+
+createGrid(gridSize);
 setBackgrounds();
 
 function createGrid(n) {
@@ -11,7 +20,7 @@ function createGrid(n) {
     let tempdiv = document.createElement("div");
     tempdiv.style.width = "auto";
     tempdiv.style.height = "auto";
-    tempdiv.style.border = "1px dashed black";
+    tempdiv.style.backgroundColor = "rgb(255,255,255)";
     divContainer.appendChild(tempdiv);
   }
 }
@@ -56,9 +65,9 @@ function rgb2hue(R, G, B) {
 }
 
 function setBackgrounds() {
-  leftSidebar.children[0].style.backgroundColor = "hsl(0,100%,50%)";
-  leftSidebar.children[1].style.backgroundColor = "hsl(60,100%,50%)";
-  leftSidebar.children[2].style.backgroundColor = "hsl(240,100%,50%)";
+  leftSidebar.children[0].style.backgroundColor = "hsl(0,100%,40%)";
+  leftSidebar.children[1].style.backgroundColor = "hsl(60,100%,40%)";
+  leftSidebar.children[2].style.backgroundColor = "hsl(240,100%,40%)";
 }
 
 function formatRGB(target) {
@@ -74,26 +83,56 @@ function formatRGB(target) {
 leftSidebar.addEventListener("click", function (e) {
   if (e.target.classList.contains("color")) {
     pickedHue = formatRGB(e.target);
-    console.log(pickedHue);
   }
 });
 
 divContainer.addEventListener("mouseover", function (e) {
-  console.log(e.target.classList[0]);
-  if (e.target.classList[0] != "wrapper") {
+  if (
+    e.target.classList[0] != "wrappersixteen" &&
+    e.target.classList[0] != "wrappereight"
+  ) {
     if (typeof pickedHue == "undefined") {
       return;
     }
-    if (e.target.style.backgroundColor == "") {
-      e.target.style.backgroundColor = `hsl(${pickedHue},100%,50%)`;
-    } else{
+    console.log(e.target.style.backgroundColor);
+    if (e.target.style.backgroundColor == "rgb(255, 255, 255)") {
+      e.target.style.backgroundColor = `hsl(${pickedHue},100%,40%)`;
+    } else {
       let currentHue = formatRGB(e.target);
       if (currentHue == pickedHue) return;
       let targetHue = parseInt((pickedHue + currentHue) / 2);
-      e.target.style.backgroundColor=`hsl(${targetHue},100%,50%)`;
+      e.target.style.backgroundColor = `hsl(${targetHue},100%,40%)`;
     }
   }
 });
-const pageWrapper = document.querySelector(".pagewrapper");
-divContainer.classList.add("wrapper");
-pageWrapper.insertBefore(divContainer, rightSidebar);
+
+resetButton.addEventListener("click", function (e) {
+  while (divContainer.lastElementChild) {
+    divContainer.removeChild(divContainer.lastChild);
+  }
+  createGrid(gridSize);
+});
+
+buttonx16.addEventListener("click", function (e) {
+  if (gridSize != 16) {
+    gridSize = 16;
+    while (divContainer.lastElementChild) {
+      divContainer.removeChild(divContainer.lastChild);
+    }
+    divContainer.classList.remove("wrappereight");
+    divContainer.classList.add("wrappersixteen");
+    createGrid(gridSize);
+  }
+});
+
+buttonx8.addEventListener("click", function (e) {
+  if (gridSize != 8) {
+    while (divContainer.lastElementChild) {
+      divContainer.removeChild(divContainer.lastChild);
+    }
+    gridSize = 8;
+    divContainer.classList.remove("wrappersixteen");
+    divContainer.classList.add("wrappereight");
+    createGrid(gridSize);
+  }
+});
