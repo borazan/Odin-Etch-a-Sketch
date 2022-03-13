@@ -4,14 +4,14 @@ const rightSidebar = document.querySelector(".sidebar.right");
 const leftSidebar = document.querySelector(".sidebar.left");
 var pickedHue;
 createGrid(16);
+setBackgrounds();
 
 function createGrid(n) {
   for (let i = 0; i < n * n; i++) {
     let tempdiv = document.createElement("div");
     tempdiv.style.width = "auto";
     tempdiv.style.height = "auto";
-    tempdiv.style.background = "rgb(255,0,0)";
-    tempdiv.style.opacity = "0";
+    tempdiv.style.border = "1px dashed black";
     divContainer.appendChild(tempdiv);
   }
 }
@@ -57,7 +57,7 @@ function rgb2hue(R, G, B) {
 
 function setBackgrounds() {
   leftSidebar.children[0].style.backgroundColor = "hsl(0,100%,50%)";
-  leftSidebar.children[1].style.backgroundColor = "hsl(120,100%,50%)";
+  leftSidebar.children[1].style.backgroundColor = "hsl(60,100%,50%)";
   leftSidebar.children[2].style.backgroundColor = "hsl(240,100%,50%)";
 }
 
@@ -69,7 +69,7 @@ function formatRGB(target) {
   }
   return rgb2hue(pickedRGB[0], pickedRGB[1], pickedRGB[2]);
 }
-setBackgrounds();
+
 //get the hue of the clicked color
 leftSidebar.addEventListener("click", function (e) {
   if (e.target.classList.contains("color")) {
@@ -79,10 +79,19 @@ leftSidebar.addEventListener("click", function (e) {
 });
 
 divContainer.addEventListener("mouseover", function (e) {
-  let opacity = e.target.style.opacity;
-  let nextOpacity = parseFloat(opacity) + 0.2;
-  if (parseFloat(opacity) < 0.9) {
-    e.target.style.opacity = `${nextOpacity}`;
+  console.log(e.target.classList[0]);
+  if (e.target.classList[0] != "wrapper") {
+    if (typeof pickedHue == "undefined") {
+      return;
+    }
+    if (e.target.style.backgroundColor == "") {
+      e.target.style.backgroundColor = `hsl(${pickedHue},100%,50%)`;
+    } else{
+      let currentHue = formatRGB(e.target);
+      if (currentHue == pickedHue) return;
+      let targetHue = parseInt((pickedHue + currentHue) / 2);
+      e.target.style.backgroundColor=`hsl(${targetHue},100%,50%)`;
+    }
   }
 });
 const pageWrapper = document.querySelector(".pagewrapper");
