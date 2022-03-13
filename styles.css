@@ -33,15 +33,3 @@
     border: 1px solid orange;
     border-radius: 10px;
 }
-
-.red{
-    background-color:rgb(255,0,0);
-}
-
-.blue{
-    background-color: rgb(0,0,255);
-}
-
-.green{
-    background-color: rgb(0,255,0);
-}
