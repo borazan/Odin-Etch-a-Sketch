@@ -1,4 +1,5 @@
 const divContainer = document.createElement("div");
+const rightSidebar = document.querySelector(".sidebar.right");
 createGrid(16);
 function createGrid(n) {
   for (let i = 0; i < n * n; i++) {
@@ -21,4 +22,4 @@ divContainer.addEventListener("mouseover", function (e) {
 });
 const pageWrapper = document.querySelector(".pagewrapper");
 divContainer.classList.add("wrapper");
-pageWrapper.appendChild(divContainer);
+pageWrapper.insertBefore(divContainer,rightSidebar);
